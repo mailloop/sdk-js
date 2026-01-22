@@ -3,17 +3,17 @@
  * Zero-dependency fetch wrapper with auth header injection
  */
 
-import type { ApiErrorResponse } from "./types.js";
 import {
-  MailloopError,
   AuthenticationError,
-  PermissionError,
+  MailloopError,
   NotFoundError,
+  PermissionError,
   RateLimitError,
   ValidationError,
 } from "./errors.js";
+import type { ApiErrorResponse } from "./types.js";
 
-const DEFAULT_BASE_URL = "https://mailloop.io/api/v1";
+const DEFAULT_BASE_URL = "https://api.mailloop.io/v1";
 const DEFAULT_TIMEOUT = 30000;
 
 export interface HttpClientOptions {
