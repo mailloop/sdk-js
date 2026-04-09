@@ -104,6 +104,138 @@ export interface WaitForEmailParams {
   subject?: string;
 }
 
+// ============ Send Email Types ============
+
+export type TextAlign = 'left' | 'center' | 'right';
+export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
+export type ButtonSize = 'small' | 'medium' | 'large';
+export type ColorVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
+
+export interface ParagraphBlock {
+  type: 'paragraph';
+  content: string;
+  align?: TextAlign;
+  color?: string;
+  fontSize?: number;
+}
+
+export interface HeadingBlock {
+  type: 'heading';
+  content: string;
+  level?: HeadingLevel;
+  align?: TextAlign;
+  color?: string;
+}
+
+export interface ButtonBlock {
+  type: 'button';
+  text: string;
+  href: string;
+  align?: TextAlign;
+  variant?: ColorVariant;
+  size?: ButtonSize;
+}
+
+export interface ImageBlock {
+  type: 'image';
+  src: string;
+  alt: string;
+  href?: string;
+  width?: number;
+  height?: number;
+  align?: TextAlign;
+}
+
+export interface SpacerBlock {
+  type: 'spacer';
+  height?: number;
+}
+
+export interface DividerBlock {
+  type: 'divider';
+  color?: string;
+  thickness?: number;
+}
+
+export interface CodeBlock {
+  type: 'code';
+  content: string;
+  language?: string;
+}
+
+export interface ListBlock {
+  type: 'list';
+  items: string[];
+  ordered?: boolean;
+}
+
+export interface CalloutBlock {
+  type: 'callout';
+  content: string;
+  variant?: ColorVariant;
+  title?: string;
+}
+
+export type EmailBlockInput =
+  | ParagraphBlock
+  | HeadingBlock
+  | ButtonBlock
+  | ImageBlock
+  | SpacerBlock
+  | DividerBlock
+  | CodeBlock
+  | ListBlock
+  | CalloutBlock;
+
+export interface SocialLink {
+  platform: string;
+  /** Full URL. Required for custom platforms; optional for known platforms when handle is provided. */
+  url?: string;
+  /** Username/handle for known platforms (e.g. 'mailloop'). Mutually exclusive with url. */
+  handle?: string;
+  label?: string;
+  iconUrl?: string;
+}
+
+export interface SendEmailLayoutConfig {
+  primaryColor?: string;
+  backgroundColor?: string;
+  logoUrl?: string;
+  logoHeight?: number;
+  footerText?: string;
+  fontFamily?: string;
+  companyName?: string;
+  socials?: SocialLink[];
+}
+
+export interface SendEmailParams {
+  /** Sender email address */
+  from: string;
+  /** Recipient email addresses */
+  to: string[];
+  /** CC email addresses */
+  cc?: string[];
+  /** BCC email addresses */
+  bcc?: string[];
+  /** Reply-to email address */
+  replyTo?: string;
+  /** Email subject */
+  subject: string;
+  /** Content blocks that make up the email body */
+  blocks: EmailBlockInput[];
+  /** Optional layout configuration overrides */
+  layout?: SendEmailLayoutConfig;
+}
+
+export interface SendEmailResponse {
+  id: string;
+  status: 'sent' | 'failed';
+  from: string;
+  to: string[];
+  subject: string;
+  sentAt: string;
+}
+
 // ============ Error Types ============
 
 export interface ApiError {

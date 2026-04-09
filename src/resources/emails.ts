@@ -10,6 +10,8 @@ import type {
   EmailListParams,
   EmailListResponse,
   WaitForEmailParams,
+  SendEmailParams,
+  SendEmailResponse,
 } from '../types.js';
 
 const DEFAULT_TIMEOUT = 30000;
@@ -95,6 +97,34 @@ export class Emails {
    * });
    * ```
    */
+  /**
+   * @experimental This method is not yet part of the public API and may change without notice.
+   *
+   * Send a transactional email with block-based content
+   *
+   * @example
+   * ```typescript
+   * const result = await client.emails.send({
+   *   from: 'notifications@acme.com',
+   *   to: ['user@example.com'],
+   *   subject: 'Your order has shipped!',
+   *   blocks: [
+   *     { type: 'heading', content: 'Order Shipped', level: 2 },
+   *     { type: 'paragraph', content: 'Your order #4821 is on its way.' },
+   *     { type: 'button', text: 'Track Package', href: 'https://acme.com/track/4821' },
+   *   ],
+   *   layout: {
+   *     primaryColor: '#4F46E5',
+   *     companyName: 'Acme Inc.',
+   *   },
+   * });
+   * console.log(result.id, result.status);
+   * ```
+   */
+  async send(params: SendEmailParams): Promise<SendEmailResponse> {
+    return this.http.post<SendEmailResponse>('/emails/send', params);
+  }
+
   async waitFor(sandboxId: string, params?: WaitForEmailParams): Promise<EmailDetail> {
     const timeout = Math.min(params?.timeout ?? DEFAULT_TIMEOUT, MAX_TIMEOUT);
 
