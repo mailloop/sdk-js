@@ -221,6 +221,8 @@ export interface SendEmailParams {
   replyTo?: string;
   /** Email subject */
   subject: string;
+  /** Preview text shown in email client inbox next to the subject line (not visible in email body). Recommended max ~100 characters. */
+  preheader?: string;
   /** Content blocks that make up the email body */
   blocks: EmailBlockInput[];
   /** Optional layout configuration overrides */
